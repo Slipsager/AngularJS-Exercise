@@ -35,14 +35,14 @@
         <ul>
             <li ng-repeat="account in accounts">
                 {{ "Id: " + account.id + ", Owner: " + account.owner + ", Type: " + account.accountType }}
-                <button data-ng-click="insert()">Insert 100</button>
-                <button data-ng-click="withdraw()">Withdraw 50</button>
+                <button data-ng-click="insert(account.id)">Insert 100</button>
+                <button data-ng-click="withdraw(account.id)">Withdraw 50</button>
 
-                <p>{{ "Saldo: " + getSaldo() }}</p>
+                <p>{{ "Saldo: " + getSaldo(account.id) }}</p>
 
                 <p>Transactions</p>
                 <ul>
-                    <li ng-repeat="transaction in getTransactionsForAccount(account.id) track by $index">
+                    <li ng-repeat="transaction in getTransactions(account.id) track by $index">
                         {{ transaction }}
                     </li>
                 </ul>
@@ -60,37 +60,37 @@
         function accountController($scope) {
             $scope.accounts = [];
 
-            var test = new Account(1, "lønkonto", "Hans Jensen", "DKK");
+            // Set up test data
+            var test = new Account(0, "lønkonto", "Hans Jensen", "DKK");
             $scope.accounts.push(test);
             test.insert(100);
             test.withdraw(50);
 
-            $scope.getTransactionsForAccount = function(id) {
-                return test.getTransactions();
+            $scope.getTransactions = function(id) {
+                return $scope.accounts[id].getTransactions();
             };
 
-            $scope.getTransactions = function() {
-                return test.getTransactions();
+            $scope.getSaldo = function(id) {
+                return $scope.accounts[id].getSaldo();
             };
 
-            $scope.getSaldo = function() {
-                return test.getSaldo();
+            $scope.insert = function(id) { 
+                return $scope.accounts[id].insert(100);
             };
 
-            $scope.insert = function() { 
-                test.insert(100);
-            };
-
-            $scope.withdraw = function() { 
-                test.withdraw(50);
+            $scope.withdraw = function(id) { 
+                return $scope.accounts[id].withdraw(50);
             };
 
             $scope.clear = function() { 
-                $scope.accounts = []; 
+                $scope.accountType = ""; 
+                $scope.owner = ""; 
+                $scope.currrency = ""; 
             };
 
             $scope.create = function() { 
-                var newAccount = new Account($scope.accountType, $scope.owner, $scope.currency);
+                var newId = $scope.accounts.length;
+                var newAccount = new Account(newId, $scope.accountType, $scope.owner, $scope.currency);
 
                 $scope.accounts.push(newAccount);
             };
