@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html class="no-js" data-ng-app>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/960gs/0/960.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+
+<body>
+    <h2>Exercise 2. Make an Angular example where you uses Directives, Expressions and a Controller </h2>
+
+    <div id="container" data-ng-controller="personController">
+        <h3>Name - Using a Person Controller</h3>
+        <input data-ng-model="firstName" />
+        <input data-ng-model="lastName" />
+        <br>
+        <p>Full Name: {{ fullName }}</p>
+    </div>
+
+    <div>
+        <h3>Calculator - Data Binding and Expressions</h3>
+        <input type="number" placeholder="Quantity" data-ng-model="quantity" />
+        <input type="number" placeholder="Price" data-ng-model="price" />
+        <p>Total in dollar: {{ (quantity * price) | currency }}</p>
+    </div>
+
+    <div data-ng-init="names=['Henrik', 'Søren', 'Kirsten', 'Karsten']">
+        <h3>Repeating names from array</h3>
+        <ul>
+            <li data-ng-repeat="x in names">
+                {{ x }}
+            </li>
+        </ul>
+    </div>
+
+    <div data-ng-controller="peopleController">
+        <h3>Repeating names from array</h3>
+        <ul>
+            <li data-ng-repeat="x in people | orderBy:'name'">
+                {{ x.name + ', ' + x.country | uppercase }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        function personController($scope) {
+            $scope.firstName = "Henrik Rossen";
+            $scope.lastName = "Jakobsen";
+
+            $scope.fullName = function() {
+                return $scope.firstName + " " + scope.lastName;
+            };
+        }
+
+        function peopleController($scope) {
+            $scope.people = [
+                {name: 'Henrik', country: 'Denmark'},
+                {name: 'Bob', country: 'Usa'},
+                {name: 'Andre', country: 'England'}
+            ];
+        }
+    </script>
+</body>
+
+</html>

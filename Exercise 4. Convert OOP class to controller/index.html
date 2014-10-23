@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="no-js" data-ng-app>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/960gs/0/960.css">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+
+<body>
+    <h2>Exercise 4. Make a Angular application where you have converted the Account javascript object from day 4 (JS OOP) into a Controller (accountControl.js)</h2>
+
+    <div id="container" data-ng-controller="accountController">
+        <h3>Create Account</h3>
+        
+        <p>
+            <input data-ng-model="accountType" placeholder="Account type" />
+            <input data-ng-model="owner" placeholder="Owner" />
+            <input data-ng-model="currency" placeholder="Currency" />
+        </p>
+
+        <p>
+            <button data-ng-click="create()">Create</button>
+            <button data-ng-click="clear()">Clear</button>
+        </p>
+
+        <h3>Accounts</h3>
+        <ul>
+            <li ng-repeat="account in accounts">
+                {{ "Id: " + account.id + ", Owner: " + account.owner + ", Type: " + account.accountType }}
+                <button data-ng-click="insert()">Insert 100</button>
+                <button data-ng-click="withdraw()">Withdraw 50</button>
+
+                <p>{{ "Saldo: " + getSaldo() }}</p>
+
+                <p>Transactions</p>
+                <ul>
+                    <li ng-repeat="transaction in getTransactionsForAccount(account.id) track by $index">
+                        {{ transaction }}
+                    </li>
+                </ul>
+
+            </li>
+        </ul>
+
+    </div>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/account.js"></script>
+
+    <script>
+        function accountController($scope) {
+            $scope.accounts = [];
+
+            var test = new Account(1, "lønkonto", "Hans Jensen", "DKK");
+            $scope.accounts.push(test);
+            test.insert(100);
+            test.withdraw(50);
+
+            $scope.getTransactionsForAccount = function(id) {
+                return test.getTransactions();
+            };
+
+            $scope.getTransactions = function() {
+                return test.getTransactions();
+            };
+
+            $scope.getSaldo = function() {
+                return test.getSaldo();
+            };
+
+            $scope.insert = function() { 
+                test.insert(100);
+            };
+
+            $scope.withdraw = function() { 
+                test.withdraw(50);
+            };
+
+            $scope.clear = function() { 
+                $scope.accounts = []; 
+            };
+
+            $scope.create = function() { 
+                var newAccount = new Account($scope.accountType, $scope.owner, $scope.currency);
+
+                $scope.accounts.push(newAccount);
+            };
+        }
+    </script>
+</body>
+
+</html>
