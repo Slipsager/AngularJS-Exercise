@@ -17,12 +17,12 @@
 <body>
     <h2>Exercise 2. Make an Angular example where you uses Directives, Expressions and a Controller </h2>
 
-    <div id="container" data-ng-controller="personController">
+    <div data-ng-controller="personController">
         <h3>Name - Using a Person Controller</h3>
         <input data-ng-model="firstName" />
         <input data-ng-model="lastName" />
         <br>
-        <p>Full Name: {{ fullName }}</p>
+        <p>Full Name: {{ fullName() }}</p>
     </div>
 
     <div>
@@ -60,7 +60,7 @@
             $scope.lastName = "Jakobsen";
 
             $scope.fullName = function() {
-                return $scope.firstName + " " + scope.lastName;
+                return $scope.firstName + " " + $scope.lastName;
             };
         }
 
